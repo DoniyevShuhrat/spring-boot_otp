@@ -16,7 +16,7 @@ public class OtpResource {
     Log logger = LogFactory.getLog(OtpResource.class);
 
     private final OtpService otpService;
-    private String phoneNumber;
+    private String phoneNumber = "998906384606";
 
     private OtpDTO otpDTO;
     private OtpDateTimeDTO otpDateTimeDTO;
@@ -96,7 +96,7 @@ public class OtpResource {
 
     @PostMapping("/otpfull")
     public ResponseEntity<String> saveOtp(@RequestBody RequestFromMobile requestFromMobile) {
-        logger.info("POST: OTP=" + requestFromMobile.getOtp() + ", time=" + requestFromMobile.getDateTime());
+        logger.info("POST: smsMessage=" + requestFromMobile.getSmsMessage() + ", time=" + requestFromMobile.getDateTime());
         otpService.submitOtp(requestFromMobile, phoneNumber);
 //        return ResponseEntity.ok().body("Otp saved");
         return ResponseEntity.ok("Otp saved");

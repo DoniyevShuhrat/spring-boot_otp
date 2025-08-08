@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Content Search</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        .header {
+            background-color: #a99e9e;
+            text-align: center;
+            padding: 20px;
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .container {
+            display: flex;
+            height: calc(100vh - 80px);
+        }
+
+        .sidebar {
+            width: 200px;
+            background-color: #a0a0a0;
+            padding: 20px;
+        }
+
+        .sidebar button {
+            display: block;
+            width: 100%;
+            margin-bottom: 10px;
+            padding: 10px;
+            background-color: #e0cfcf;
+            border: none;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .main {
+            flex: 1;
+            padding: 40px;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 8px;
+            font-size: 16px;
+            border: 1px solid #999;
+        }
+
+        .inputs {
+            display: flex;
+            gap: 40px;
+        }
+
+        .inputs > .input-group {
+            flex: 1;
+        }
+
+        /*    */
+        .dropdown {
+            background: #DB4767;
+            font-family: Arial, Helvetica, sans-serif;
+            text-align: center;
+            padding: 5px 10px;
+            height: 25vw;
+            box-sizing: border-box;
+        }
+
+        .dropdown h2 {
+            color: #fff;
+            font-size: 5vw;
+        }
+
+        .styled-select {
+            /*display: inline-block;*/
+            text-align: left;
+
+            border: 1px solid red;
+        }
+
+        #select {
+            font-size: 1vw;
+            color: #fff;
+            cursor: pointer;
+            outline: none;
+            background: #4f8eed;
+            width: 100%;
+        }
+
+        .styled-select:hover #option {
+            display: block;
+        }
+
+        #option {
+            background: #000;
+            font-size: 2vw;
+            color: #fff;
+            display: none;
+            position: absolute;
+            /*width: 35vw;*/
+        }
+
+        .item {
+            cursor: pointer;
+            padding: 1.5vw 2vw;
+        }
+        .item:hover {
+            background-color: #4f8eed;
+        }
+
+        /*    */
+    </style>
+</head>
+<body>
+
+<div class="header">Content Search</div>
+
+<div class="container">
+    <div class="sidebar">
+        <div class="dropdown">
+            <h4>Answer type</h4>
+            <div class="styled-select">
+                <select id="select" name="select">
+                    <option value="CSS">CSS</option>
+                    <option value="Javascript">Javascript</option>
+                    <option value="PHP">PHP</option>
+                    <option value="ASP.NET">ASP.NET</option>
+                    <option value="HTML">HTML</option>
+                    <option>Word Order</option>
+                    <option>Flash Card</option>
+                    <option>Select Btn</option>
+                    <option>True/False</option>
+                    <option>Matching Card</option>
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <div class="main">
+        <div class="inputs">
+            <div class="input-group">
+                <label for="primaryText">Primary Text</label>
+                <input type="text" id="primaryText" placeholder="Enter primary text">
+            </div>
+            <div class="input-group">
+                <label for="secondaryText">Secondary Text</label>
+                <input type="text" id="secondaryText" placeholder="Enter secondary text">
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,39 @@
+<!-- templates/index.html -->
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Content Search</title>
+</head>
+<body>
+<h2 style="text-align: center; background: #b2a5a5;">Content Search</h2>
+
+<div style="display: flex;">
+    <!-- Drop-down menu -->
+    <div>
+        <select id="contentType" onchange="onTypeChange()" size="6">
+            <option>Word Order</option>
+            <option>Flash Card</option>
+            <option>Select Btn</option>
+            <option>True/False</option>
+            <option>Matching Card</option>
+        </select>
+    </div>
+
+    <!-- Form -->
+    <div style="margin-left: 20px;">
+        <label>Primary Text</label><br>
+        <input type="text" name="primaryText"><br><br>
+
+        <label>Secondary Text</label><br>
+        <input type="text" name="secondaryText"><br>
+    </div>
+</div>
+
+<script>
+    function onTypeChange() {
+        const type = document.getElementById("contentType").value;
+        alert("Selected: " + type); // yoki formni yangilash mumkin
+    }
+</script>
+</body>
+</html>

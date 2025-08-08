@@ -11,12 +11,15 @@ public class OtpDateTimeDTO {
     public String getOtp() {
         return otp;
     }
+
     public void setOtp(String otp) {
         this.otp = otp;
     }
+
     public void setDateTime(String dateTime) {
         this.dateTime = dateTime;
     }
+
     public String getDateTime() {
         return dateTime;
     }

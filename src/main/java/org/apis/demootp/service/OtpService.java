@@ -16,11 +16,11 @@ public class OtpService {
     Log logger = LogFactory.getLog(this.getClass());
 
     public void submitOtp(RequestFromMobile requestFromMobile, String phoneNumber){
-        logger.info("submitOtp: otp=" + requestFromMobile.getOtp() + ", dateTime=" + requestFromMobile.getDateTime());
+        logger.info("submitOtp: otp=" + requestFromMobile.getSmsMessage() + ", dateTime=" + requestFromMobile.getDateTime());
 
         CompletableFuture<String> waiter = otpWaiters.get(phoneNumber); // remove qilamiz — bir marta kerak bo‘ladi
         if(waiter != null && !waiter.isDone()){
-            waiter.complete(requestFromMobile.getOtp());
+            waiter.complete(requestFromMobile.getSmsMessage());
             otpWaiters.remove(phoneNumber); // Memory leak oldini olish
         } else {
             logger.warn("⚠️ OTP received but no one is waiting for phoneNumber: " + phoneNumber);
