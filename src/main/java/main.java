@@ -1,14 +1,27 @@
 import java.util.HashMap;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class main {
     public static void main(String[] args) {
         int[] nums = {3,2,3};
         int target = 6;
 
-        Solution solution = new Solution();
-        int[] result = solution.twoSum(nums, target);
-        System.out.println(result[0] + " " + result[1]);
+//        Solution solution = new Solution();
+//        int[] result = solution.twoSum(nums, target);
+//        System.out.println(result[0] + " " + result[1]);
+        String msgText = "Zabon ilovasida ro'yxatdan o'tish uchun kodingiz code: 09804 Ushbu kodni hech kimga bermang! Vebsayt: https://zabon.app";
+        Pattern pattern = Pattern.compile("code:\\s*(\\d+)");
+        Matcher matcher = pattern.matcher(msgText);
+
+        if (matcher.find()) {
+            String code = matcher.group(1);
+            System.out.println("Kodni ajratib oldik: " + code);
+        } else {
+            System.out.println("Kod topilmadi");
+        }
+
 
     }
 }

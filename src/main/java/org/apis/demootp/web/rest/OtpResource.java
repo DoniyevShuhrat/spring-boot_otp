@@ -7,7 +7,11 @@ import org.apis.demootp.service.dto.*;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.CompletableFuture;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @RestController
 @RequestMapping("/api")
@@ -36,6 +40,13 @@ public class OtpResource {
         logger.info("Get OTP: " + otpDTO.getOtp() + " used: " + used);
         return otpDTO;
 //        return "{\"otp\": " + otpDTO.getOtp() + "}";
+    }
+
+    @GetMapping("/test")
+    public String getHello() {
+        Map<String, String> map = new HashMap<>();
+        map.put("name", "Yasin");
+        return "Hello World!";
     }
 
     @PostMapping("/otp")
@@ -83,8 +94,9 @@ public class OtpResource {
         phoneNumber = requestFromAutoTest.getPhoneNumber();
 
         return otpService.waiterForOtp(requestFromAutoTest.getPhoneNumber())
-                .thenApply(otp -> {
+                .thenApply(smsMessage -> {
                     logger.info("OTP successfully retrieved for dateTime: " + requestFromAutoTest.getPhoneNumber());
+                    String otp = separateOTP(smsMessage);
                     return ResponseEntity.ok(new ResponseToAutoTest(otp, "success"));
                 })
                 .exceptionally(ex -> {
@@ -100,6 +112,20 @@ public class OtpResource {
         otpService.submitOtp(requestFromMobile, phoneNumber);
 //        return ResponseEntity.ok().body("Otp saved");
         return ResponseEntity.ok("Otp saved");
+    }
+
+    public String separateOTP(String smsMessage){
+        Pattern pattern = Pattern.compile("code:\\s*(\\d+)");
+        Matcher matcher = pattern.matcher(smsMessage);
+
+        if (matcher.find()) {
+            String code = matcher.group(1);
+            System.out.println("Kodni ajratib oldik: " + code);
+            return code;
+        } else {
+            System.out.println("Kod topilmadi");
+        }
+        return null;
     }
 
 }
