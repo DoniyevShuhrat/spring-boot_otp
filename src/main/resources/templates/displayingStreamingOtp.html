@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+</head>
+<body>
+
+<h1>Mavjud OTP kodlar ro'yxati (Jonli efir)</h1>
+
+<table id="otp-table">
+    <thead>
+    <tr>
+        <th>Vaqti</th>
+        <th>SMS Xabar</th>
+    </tr>
+    </thead>
+    <tbody>
+    </tbody>
+</table>
+
+<script>
+    // Jadvalimizni topib olamiz
+    const tableBody = document.getElementById("otp-table").getElementsByTagName('tbody')[0];
+
+    // Serverga SSE ulanishini o'rnatamiz
+    const eventSource = new EventSource("/otp-stream");
+
+    // Serverdan 'message' hodisasi kelganda bu funksiya ishlaydi
+    eventSource.onmessage = function (event) {
+        // Kelgan ma'lumot JSON formatida bo'ladi, uni obyektga o'giramiz
+        const newOtp = JSON.parse(event.data);
+
+        // Yangi qator (tr) yaratamiz
+        const newRow = tableBody.insertRow(0); // 0 - yangi qatorni eng tepaga qo'shadi
+
+        // Yangi kataklar (td) yaratamiz
+        const cell1 = newRow.insertCell(0);
+        const cell2 = newRow.insertCell(1);
+
+        // 2-TUZATISH: Kataklarga to'g'ri maydon nomlari bilan ma'lumotni joylaymiz
+        cell1.innerHTML = newOtp.dateTime;
+        cell2.innerHTML = newOtp.smsMessage;
+    };
+
+    eventSource.onerror = function (err) {
+        console.error("EventSource failed:", err);
+        eventSource.close(); // Xatolik bo'lsa ulanishni yopamiz
+    };
+</script>
+
+</body>
+</html>

@@ -2,7 +2,9 @@ package org.apis.demootp.service;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.apis.demootp.OtpUIController; // 1. Controller'ni import qilamiz
 import org.apis.demootp.service.dto.RequestFromMobile;
+import org.springframework.context.annotation.Lazy; // 2. @Lazy'ni import qilamiz
 import org.springframework.stereotype.Service;
 
 import java.util.Map;
@@ -15,8 +17,20 @@ public class OtpService {
     private final Map<String, CompletableFuture<String>> otpWaiters = new ConcurrentHashMap<>();
     Log logger = LogFactory.getLog(this.getClass());
 
+    // 3. OtpUIController uchun o'zgaruvchi e'lon qilamiz
+    private final OtpUIController otpUIController;
+
+    // 4. Contructor orqali OtpUIController'ni qabul qilamiz (Dependency Injection)
+    public OtpService(@Lazy OtpUIController otpUIController) {
+        this.otpUIController = otpUIController;
+    }
+
     public void submitOtp(RequestFromMobile requestFromMobile, String phoneNumber){
         logger.info("submitOtp: otp=" + requestFromMobile.getSmsMessage() + ", dateTime=" + requestFromMobile.getDateTime());
+
+        // 5. MUHIM QADAM: Kelgan OTP'ni UI'ga yuborish
+        // Bu jonli yangilanish uchun UI'ga xabar yuboradi
+        this.otpUIController.sendOtpUpdate(requestFromMobile);
 
         CompletableFuture<String> waiter = otpWaiters.get(phoneNumber); // remove qilamiz — bir marta kerak bo‘ladi
         if(waiter != null && !waiter.isDone()){

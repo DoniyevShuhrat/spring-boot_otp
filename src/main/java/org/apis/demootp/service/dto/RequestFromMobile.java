@@ -5,6 +5,10 @@ public class RequestFromMobile {
     private String dateTime;
     private String smsMessage;
 
+    public RequestFromMobile(String dateTime, String smsMessage) {
+        this.dateTime = dateTime;
+        this.smsMessage = smsMessage;
+    }
     public void setSmsMessage(String smsMessage) {
         this.smsMessage = smsMessage;
     }
