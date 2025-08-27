@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Barcha OTP kodlar</title>
+    <title>All OTPs</title>
     <style>
         body { font-family: sans-serif; margin: 2em; }
         table { width: 50%; border-collapse: collapse; }
@@ -12,13 +12,13 @@
 </head>
 <body>
 
-<h1>Mavjud OTP kodlar ro'yxati</h1>
+<h1>List of OTP</h1>
 
 <table th:if="${!otps.isEmpty()}">
     <thead>
     <tr>
-        <th>OTP Kod</th>
-        <th>Telefon raqam</th>
+        <th>DateTime</th>
+        <th>SMS message</th>
     </tr>
     </thead>
     <tbody>
