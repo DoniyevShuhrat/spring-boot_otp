@@ -1,6 +1,9 @@
 package org.apis.demootp;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.apis.demootp.service.dto.RequestFromMobile;
+import org.apis.demootp.web.rest.OtpResource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,6 +17,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 @Controller
 public class OtpUIController {
 
+    Log logger = LogFactory.getLog(OtpResource.class);
     // Agar ma'lumotlarni Service'dan olmoqchi bo'lsangiz
     // private final OtpService otpService;
     //
@@ -24,7 +28,7 @@ public class OtpUIController {
     @GetMapping("/display-otps") // Brouzerda qauso URL'da ochilishini belgilaydi
     public String showOtpPage(Model model) {
         // --- 1. Ma'lumotlarni tayyorlash ---
-        // Hozircha test uchun o'zimiz ma'lumot yaratamiz.
+        // Hozircha test uchun o'zimiz marmot yaratamiz.
         // Aslida bu yerda siz o'zingizni OtpService'ingizni chaqirishingiz kerak bo'ladi
         // Exp: List<RequestFromMobile> testOtps = otpService.getTestOtps();
 
@@ -84,9 +88,11 @@ public class OtpUIController {
         // --- MUHIM QO'SHIMCHA ---
         // Ulanish o'rnatilishi bilan darhol birinchi xabarni yuboramiz
         try {
+            logger.info("Streaming OTPs: New emitter connected");
             emitter.send(SseEmitter.event().name("INIT").data("Connection established"));
         } catch (IOException e) {
             // Bu emitter'ni o'chiramiz, chunki unga ma'lumot yuborib bo'lmadirectories
+            logger.error("Streaming OTPs: Error while sending init event", e);
             this.emitters.remove(emitter);
         }
         // ---------------------------------
