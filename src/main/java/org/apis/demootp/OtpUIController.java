@@ -69,7 +69,9 @@ public class OtpUIController {
     // Bu endpoint SSE ulanishlarini qabul qiladi
     @GetMapping("/otp-stream")
     public SseEmitter streamOtps() {
-        SseEmitter emitter = new SseEmitter(Long.MAX_VALUE); // Ulanish vaqtini cheksiz qilamiz
+        // Timeout'ni aniqroq belgilaymiz (masalan, 30 daqiqa)
+        SseEmitter emitter = new SseEmitter(30 * 60 * 1000L);
+//        SseEmitter emitter = new SseEmitter(Long.MAX_VALUE); // Ulanish vaqtini cheksiz qilamiz
 
         // Yangi emitter'ni ro'yxatga qo'shamiz
         this.emitters.add(emitter);
@@ -78,6 +80,16 @@ public class OtpUIController {
         emitter.onCompletion(() -> this.emitters.remove(emitter));
         emitter.onTimeout(() -> this.emitters.remove(emitter));
         emitter.onError((error) -> this.emitters.remove(emitter));
+
+        // --- MUHIM QO'SHIMCHA ---
+        // Ulanish o'rnatilishi bilan darhol birinchi xabarni yuboramiz
+        try {
+            emitter.send(SseEmitter.event().name("INIT").data("Connection established"));
+        } catch (IOException e) {
+            // Bu emitter'ni o'chiramiz, chunki unga ma'lumot yuborib bo'lmadirectories
+            this.emitters.remove(emitter);
+        }
+        // ---------------------------------
 
         return emitter;
     }
