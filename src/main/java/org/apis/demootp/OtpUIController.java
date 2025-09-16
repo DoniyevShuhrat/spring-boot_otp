@@ -90,6 +90,7 @@ public class OtpUIController {
         try {
             logger.info("Streaming OTPs: New emitter connected");
             emitter.send(SseEmitter.event().name("INIT").data("Connection established"));
+            logger.info("Streaming OTPs: Init event sent");
         } catch (IOException e) {
             // Bu emitter'ni o'chiramiz, chunki unga ma'lumot yuborib bo'lmadirectories
             logger.error("Streaming OTPs: Error while sending init event", e);
