@@ -64,6 +64,37 @@
             <artifactId>lombok</artifactId>
             <scope>provided</scope>
         </dependency>
+
+<!--        Spring Data JPA: Bu Spring'ning ma'lumotlar bazasi bilan ishlashni (saqlash, o'qish, o'chirish) super darajada osonlashtiradigan kutubxonasi. Uning ichida Hibernate ham bor.-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-jpa</artifactId>
+        </dependency>
+
+<!--        PostgreSQL Driver: Bu Java tilini PostgreSQL'ning "tiliga" tarjima qilib beradigan maxsus dastur.-->
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>javax.persistence</groupId>
+            <artifactId>javax.persistence-api</artifactId>
+            <version>2.2</version>
+        </dependency>
+
+        <dependency>
+            <groupId>javax.xml.bind</groupId>
+            <artifactId>jaxb-api</artifactId>
+            <version>2.3.1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.glassfish.jaxb</groupId>
+            <artifactId>jaxb-runtime</artifactId>
+            <version>2.3.1</version>
+        </dependency>
+
     </dependencies>
 
     <build>

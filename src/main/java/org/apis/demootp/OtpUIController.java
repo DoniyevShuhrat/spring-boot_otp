@@ -2,6 +2,8 @@ package org.apis.demootp;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.apis.demootp.domain.ReceivedSms;
+import org.apis.demootp.service.OtpService;
 import org.apis.demootp.service.dto.RequestFromMobile;
 import org.apis.demootp.web.rest.OtpResource;
 import org.springframework.stereotype.Controller;
@@ -19,11 +21,11 @@ public class OtpUIController {
 
     Log logger = LogFactory.getLog(OtpResource.class);
     // Agar ma'lumotlarni Service'dan olmoqchi bo'lsangiz
-    // private final OtpService otpService;
-    //
-    // public OtpUIController(OtpService otpService) {
-    //     this.otpService = otpService;
-    // }
+    private final OtpService otpService;
+
+    public OtpUIController(OtpService otpService) {
+        this.otpService = otpService;
+    }
 
     @GetMapping("/display-otps") // Brouzerda qauso URL'da ochilishini belgilaydi
     public String showOtpPage(Model model) {
@@ -57,6 +59,18 @@ public class OtpUIController {
 
         // Bu "src/main/resources/templates/displayingStreamingOtp.html" faylini anglatadi
         return "displayingStreamingOtp";
+    }
+
+    @GetMapping("/messages")
+    public String showMessagesPage(Model model) {
+        // 1. Servicedan database'dagi barcha SMS'larni olamiz
+        List<ReceivedSms> allMessages = otpService.getAllSmsMessages();
+
+        // 2. Olingan data'larni "Messages" nomi bilan modelga qo'shamiz
+        model.addAttribute("messages", allMessages);
+
+        // 3. "templates/messages.html papkasidagi "messages.html" faylini ko'rsatishni buyuramiz
+        return "messages";
     }
 
 

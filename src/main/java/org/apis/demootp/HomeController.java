@@ -10,7 +10,8 @@ public class HomeController {
     public String redirectToDisplayPage(){
         // Endi u mavjud "displayingOTP.html" fayliga yo'naltiradi
 //        return "streaming-otps"";
-        return "redirect:/streaming-otps";
+//        return "redirect:/streaming-otps";
+        return "redirect:/messages";
     }
 //    public String home(){
 //        return "home";

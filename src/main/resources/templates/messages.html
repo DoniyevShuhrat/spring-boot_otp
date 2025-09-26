@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Live data page (Polling)</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            margin: 2em;
+            background-color: #f4f4f9;
+        }
+        #data-container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            min-height: 100px;
+        }
+        .sms-item {
+            border-bottom: 1px solid #eee;
+            padding: 10px 0;
+        }
+        .sms-item:last-child {
+            border-bottom: none;
+        }
+        .error {
+            color: red;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+<h1>List of last SMS</h1>
+<p>Bu sahifa har 3 soniyada avtomatik yangilanadi.</p>
+
+<div id="data-container">
+    Yuklanmoqda...
+</div>
+
+<script>
+    // Ma'lumotlarni serverdan olib keladigan funksiya
+    async function fetchData() {
+        // MA'LUMOT OLINADIGAN MANZIL (URL). BUNI O'ZINGIZGA MOSLAB O'ZGARTIRING!
+        const apiUrl = '/api/sms/latest'; // Masalan, barcha SMS'larni qaytaradigan API
+        const container = document.getElementById('data-container');
+
+        try {
+            const response = await fetch(apiUrl);
+
+            // Agar server xatolik qaytarsa (masalan, 404 yoki 500)
+            if (!response.ok) {
+                throw new Error(`Server xatoligi: ${response.status}`);
+            }
+
+            // Javobni JSON formatida o'qiymiz
+            const data = await response.json();
+
+            // Konteynerni tozalaymiz
+            container.innerHTML = '';
+
+            // Agar ma'lumotlar bo'sh bo'lsa
+            if (data.length === 0) {
+                container.textContent = 'Hozircha yangi ma\'lumotlar yo\'q.';
+                return;
+            }
+
+            // Har bir ma'lumot uchun HTML element yaratamiz
+            data.forEach(sms => {
+                const smsDiv = document.createElement('div');
+                smsDiv.className = 'sms-item';
+                smsDiv.innerHTML = `
+                    <strong>Telefon:</strong> ${sms.phoneNumber}<br>
+                    <strong>Xabar:</strong> ${sms.smsMessage}<br>
+                    <strong>Vaqti:</strong> ${new Date(sms.createdAt).toLocaleString()}
+                `;
+                container.appendChild(smsDiv);
+            });
+
+        } catch (error) {
+            // Agar tarmoqda yoki boshqa joyda xatolik bo'lsa
+            console.error('Ma\'lumotlarni yuklashda xatolik:', error);
+            container.innerHTML = `<div class="error">Ma'lumotlarni yuklab bo'lmadi. Server bilan aloqa yo'q yoki xatolik yuz berdi.</div>`;
+        }
+    }
+
+    // Har 3000 millisoniyada (3 soniyada) fetchData funksiyasini chaqirish
+    setInterval(fetchData, 3000);
+
+    // Sahifa birinchi marta ochilganda kutib o'tirmasdan ma'lumotlarni yuklash
+    document.addEventListener('DOMContentLoaded', fetchData);
+</script>
+
+</body>
+</html>
